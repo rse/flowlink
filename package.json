@@ -1,0 +1,57 @@
+{
+    "name":                       "flowlink",
+    "version":                    "0.9.0",
+    "description":                "Flow Expression Language",
+    "keywords":                   [ "flow", "link", "expression", "language", "parser", "evaluator" ],
+    "license":                    "MIT",
+    "browser":                    "lib/flowlink.browser.js",
+    "main":                       "lib/flowlink.node.js",
+    "types":                      "src/flowlink.d.ts",
+    "repository": {
+        "type":                   "git",
+        "url":                    "git+https://github.com/rse/flowlink.git"
+    },
+    "author": {
+        "name":                   "Dr. Ralf S. Engelschall",
+        "email":                  "rse@engelschall.com",
+        "url":                    "http://engelschall.com"
+    },
+    "homepage":                   "https://github.com/rse/flowlink",
+    "bugs":                       "https://github.com/rse/flowlink/issues",
+    "dependencies": {
+        "pegjs-otf":              "2.0.2",
+        "pegjs-util":             "2.0.1",
+        "asty":                   "1.8.21",
+        "cache-lru":              "1.2.0",
+        "source-code-error":      "1.1.3"
+    },
+    "devDependencies": {
+        "grunt":                  "1.6.1",
+        "grunt-cli":              "1.4.3",
+        "grunt-contrib-clean":    "2.0.1",
+        "grunt-browserify":       "6.0.0",
+        "grunt-mocha-test":       "0.13.3",
+        "grunt-eslint":           "24.3.0",
+        "@babel/core":            "7.24.0",
+        "eslint":                 "8.57.0",
+        "eslint-config-standard": "17.1.0",
+        "eslint-plugin-promise":  "6.1.1",
+        "eslint-plugin-import":   "2.29.1",
+        "eslint-plugin-node":     "11.1.0",
+        "mocha":                  "10.3.0",
+        "chai":                   "4.4.1",
+        "babelify":               "10.0.0",
+        "@babel/preset-env":      "7.24.0",
+        "uglifyify":              "5.0.2",
+        "browserify-header":      "1.1.0",
+        "browserify-derequire":   "1.1.1"
+    },
+    "engines": {
+        "node":                   ">=18.0.0"
+    },
+    "scripts": {
+        "prepublishOnly":         "grunt default",
+        "build":                  "grunt default",
+        "test":                   "node smp/sample.js"
+    }
+}
