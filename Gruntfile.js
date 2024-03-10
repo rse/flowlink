@@ -60,7 +60,7 @@ module.exports = function (grunt) {
                         "browserify-header"
                     ],
                     browserifyOptions: {
-                        standalone: "AEL",
+                        standalone: "FlowLink",
                         debug: false
                     }
                 }
@@ -93,7 +93,7 @@ module.exports = function (grunt) {
                         "source-code-error"
                     ],
                     browserifyOptions: {
-                        standalone: "AEL",
+                        standalone: "FlowLink",
                         debug: false
                     }
                 }
