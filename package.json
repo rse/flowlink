@@ -46,6 +46,7 @@
         "browserify-header":      "1.1.0",
         "browserify-derequire":   "1.1.1"
     },
+    "upd":                        [ "!chai" ],
     "engines": {
         "node":                   ">=18.0.0"
     },
