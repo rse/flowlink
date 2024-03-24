@@ -22,7 +22,7 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-declare module "FlowLink" {
+declare module "flowlink" {
     type FlowLinkOptions = {
         resolveVariable: (id: string) => string,
         createNode: (id: string, opts: { [ id: string ]: any }, ...args: any[]) => any,
