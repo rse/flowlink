@@ -25,7 +25,7 @@
 declare module "flowlink" {
     type FlowLinkOptions = {
         resolveVariable: (id: string) => string,
-        createNode: (id: string, opts: { [ id: string ]: any }, ...args: any[]) => any,
+        createNode: (id: string, opts: { [ id: string ]: any }, args: any[]) => any,
         connectNode: (node1: any, node2: any) => any
     }
     class FlowLink {
