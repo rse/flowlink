@@ -25,7 +25,7 @@
 declare module "flowlink" {
     type FlowLinkCallbacks<T> = {
         resolveVariable(id: string): string,
-        createNode<T>(id: string, opts: { [ id: string ]: any }, args: any[]): T,
+        createNode(id: string, opts: { [ id: string ]: any }, args: any[]): T,
         connectNode(node1: T, node2: T): void
     }
     class FlowLink<T> {
@@ -38,11 +38,11 @@ declare module "flowlink" {
         compile(
             expr: string
         ): any
-        execute<T>(
+        execute(
             ast: any,
             callbacks: FlowLinkCallbacks<T>
         ): any
-        evaluate<T>(
+        evaluate(
             expr: string,
             callbacks: FlowLinkCallbacks<T>
         ): any
