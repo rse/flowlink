@@ -60,17 +60,15 @@ const expr = `
 try {
     const ast = flowlink.compile(expr)
     const stream = flowlink.execute(ast, {
-        resolveVariable: (id) => {
+        resolveVariable (id) {
             if (id === "sample")
                 return "SAMPLE"
-            else
-                throw new Error("failed to resolve variable")
+            throw new Error(`failed to resolve variable "${id}"`)
         },
-        createNode: (id, opts, args) => {
-            const node = new Node(id, opts, args)
-            return node
+        createNode (id, opts, args) {
+            return new Node(id, opts, args)
         },
-        connectNode: (node1, node2) => {
+        connectNode (node1, node2) {
             node1.pipe(node2)
         }
     })
@@ -117,14 +115,14 @@ Application Programming Interface (API)
 The following TypeScript definition shows the supported Application Programming Interface (API):
 
 ```ts
-declare module "FlowLink" {
-    type FlowLinkOptions = {
-        resolveVariable: (id: string) => string,
-        createNode: (id: string, opts: { [ id: string ]: any }, ...args: any[]) => any,
-        connectNode: (node1: any, node2: any) => any
+declare module "flowlink" {
+    type FlowLinkCallbacks<T> = {
+        resolveVariable(id: string): string,
+        createNode<T>(id: string, opts: { [ id: string ]: any }, args: any[]): T,
+        connectNode(node1: T, node2: T): void
     }
-    class FlowLink {
-        public constructor(
+    class FlowLink<T> {
+        constructor(
             options?: {
                 cache?: number,
                 trace?: (msg: string) => void
@@ -133,13 +131,13 @@ declare module "FlowLink" {
         compile(
             expr: string
         ): any
-        execute(
+        execute<T>(
             ast: any,
-            options: FlowLinkOptions
+            callbacks: FlowLinkCallbacks<T>
         ): any
-        evaluate(
+        evaluate<T>(
             expr: string,
-            options: FlowLinkOptions
+            callbacks: FlowLinkCallbacks<T>
         ): any
     }
     export = FlowLink

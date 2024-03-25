@@ -23,13 +23,13 @@
 */
 
 declare module "flowlink" {
-    type FlowLinkOptions = {
-        resolveVariable: (id: string) => string,
-        createNode: (id: string, opts: { [ id: string ]: any }, args: any[]) => any,
-        connectNode: (node1: any, node2: any) => any
+    type FlowLinkCallbacks<T> = {
+        resolveVariable(id: string): string,
+        createNode<T>(id: string, opts: { [ id: string ]: any }, args: any[]): T,
+        connectNode(node1: T, node2: T): void
     }
-    class FlowLink {
-        public constructor(
+    class FlowLink<T> {
+        constructor(
             options?: {
                 cache?: number,
                 trace?: (msg: string) => void
@@ -38,13 +38,13 @@ declare module "flowlink" {
         compile(
             expr: string
         ): any
-        execute(
+        execute<T>(
             ast: any,
-            options: FlowLinkOptions
+            callbacks: FlowLinkCallbacks<T>
         ): any
-        evaluate(
+        evaluate<T>(
             expr: string,
-            options: FlowLinkOptions
+            callbacks: FlowLinkCallbacks<T>
         ): any
     }
     export = FlowLink
