@@ -126,8 +126,8 @@ exprLiteralObjectItem
         }
 
 exprVariable "variable"
-    =   id:id {
-            return ast("Variable").merge(id)
+    =   v:variable {
+            return v
         }
 
 exprLiteralOther
@@ -140,22 +140,27 @@ exprLiteralOther
 **  ==== LITERALS ====
 */
 
+variable "variable"
+    =   v:$(!value [a-zA-Z_][a-zA-Z0-9_]* ("." [a-zA-Z_][a-zA-Z0-9_]*)*) {
+            return ast("Variable").set({ id: v })
+        }
+
 id "identifier"
-    =   id:$(!value [a-zA-Z_$][a-zA-Z0-9_$-]*) {
+    =   id:$(!value [a-zA-Z_][a-zA-Z0-9_-]*) {
             return ast("Identifier").set({ id: id })
         }
 
-template
+template "template"
     =   "`" l:(templateInterpolation / templateString)* "`" {
             return ast("LiteralTemplate").add(l)
         }
 
-templateInterpolation
+templateInterpolation "template interpolation"
     =   "${" _ e:exprVariable _ "}" {
             return e
         }
 
-templateString
+templateString "template string"
     =   s:$((templateEscapedChar / templateChar)+) {
             return ast("LiteralString").set({ value: s })
         }
