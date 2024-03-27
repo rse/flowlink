@@ -141,7 +141,7 @@ exprLiteralOther
 */
 
 variable "variable"
-    =   v:$(!value [a-zA-Z_][a-zA-Z0-9_]* ("." [a-zA-Z_][a-zA-Z0-9_]*)*) {
+    =   v:$(!value [a-zA-Z_][a-zA-Z0-9_]* ("." [a-zA-Z0-9_][a-zA-Z0-9_]*)*) {
             return ast("Variable").set({ id: v })
         }
 
