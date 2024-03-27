@@ -1,6 +1,6 @@
 {
     "name":                       "flowlink",
-    "version":                    "0.9.6",
+    "version":                    "0.9.7",
     "description":                "Flow Expression Language",
     "keywords":                   [ "flow", "link", "expression", "language", "parser", "evaluator" ],
     "license":                    "MIT",
