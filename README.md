@@ -118,9 +118,11 @@ The following TypeScript definition shows the supported Application Programming 
 declare module "flowlink" {
     type FlowLinkCallbacks<T> = {
         resolveVariable(id: string): string,
-        createNode<T>(id: string, opts: { [ id: string ]: any }, args: any[]): T,
+        createNode(id: string, opts: { [ id: string ]: any }, args: any[]): T,
         connectNode(node1: T, node2: T): void
     }
+    type FlowLinkAST = unknown
+    type FlowLinkResult<T> = { head: T[], tail: T[] }
     class FlowLink<T> {
         constructor(
             options?: {
@@ -130,15 +132,15 @@ declare module "flowlink" {
         )
         compile(
             expr: string
-        ): any
-        execute<T>(
-            ast: any,
+        ): FlowLinkAST
+        execute(
+            ast: FlowLinkAST,
             callbacks: FlowLinkCallbacks<T>
-        ): any
-        evaluate<T>(
+        ): FlowLinkResult<T>
+        evaluate(
             expr: string,
             callbacks: FlowLinkCallbacks<T>
-        ): any
+        ): FlowLinkResult<T>
     }
     export = FlowLink
 }
