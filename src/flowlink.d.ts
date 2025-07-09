@@ -23,6 +23,11 @@
 */
 
 declare module "flowlink" {
+    export interface FlowLinkError extends Error {
+        line?:   number
+        column?: number
+        report?: string
+    }
     type FlowLinkCallbacks<T> = {
         resolveVariable(id: string): string,
         createNode(id: string, opts: { [ id: string ]: any }, args: any[]): T,
@@ -49,6 +54,6 @@ declare module "flowlink" {
             callbacks: FlowLinkCallbacks<T>
         ): FlowLinkResult<T>
     }
-    export = FlowLink
+    export default FlowLink
 }
 
