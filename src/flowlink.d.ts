@@ -23,7 +23,7 @@
 */
 
 declare module "flowlink" {
-    export interface FlowLinkError extends Error {
+    export class FlowLinkError extends Error {
         line?:   number
         column?: number
         report?: string
