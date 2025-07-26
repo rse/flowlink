@@ -25,11 +25,11 @@
 export default class FlowLinkUtil {
     /*  pad a string with spaces to the left/right  */
     static pad (str, num) {
-        let n = num < 0 ? -num : num
+        const n = num < 0 ? -num : num
         if (str.length > n)
             str = str.substr(0, n)
         else {
-            let pad = Array((n + 1) - str.length).join(" ")
+            const pad = Array((n + 1) - str.length).join(" ")
             str = num < 0 ? (str + pad) : (pad + str)
         }
         return str

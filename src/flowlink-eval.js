@@ -36,7 +36,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
 
     /*  raise an error  */
     error (N, origin, message) {
-        let pos = N.pos()
+        const pos = N.pos()
         return new FlowLinkError(message, {
             origin,
             code:   this.expr,
@@ -150,7 +150,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
     /*  evaluate array literal  */
     evalLiteralArray (N) {
         this.traceBegin(N)
-        let result = []
+        const result = []
         for (const node of N.childs())
             result.push(this.evalNodeParamValue(node))
         this.traceEnd(N, result)
@@ -160,7 +160,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
     /*  evaluate object literal  */
     evalLiteralObject (N) {
         this.traceBegin(N)
-        let result = {}
+        const result = {}
         for (const node of N.childs()) {
             const key = node.get("key")
             const val = this.evalNodeParamValue(node.child(0))
@@ -199,7 +199,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
     /*  evaluate string literal  */
     evalLiteralString (N) {
         this.traceBegin(N)
-        let result = N.get("value")
+        const result = N.get("value")
         this.traceEnd(N, result)
         return result
     }
@@ -207,7 +207,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
     /*  evaluate number literal  */
     evalLiteralNumber (N) {
         this.traceBegin(N)
-        let result = N.get("value")
+        const result = N.get("value")
         this.traceEnd(N, result)
         return result
     }
@@ -215,7 +215,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
     /*  evaluate special value literal  */
     evalLiteralValue (N) {
         this.traceBegin(N)
-        let result = N.get("value")
+        const result = N.get("value")
         this.traceEnd(N, result)
         return result
     }

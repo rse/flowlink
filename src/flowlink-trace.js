@@ -44,7 +44,7 @@ export default class FlowLinkTrace {
     traceBegin (N) {
         if (this.trace === null)
             return
-        let prefix = this.prefixOf(N)
+        const prefix = this.prefixOf(N)
         this.trace("execute: | " + prefix + N.type() + " {")
     }
 
@@ -52,7 +52,7 @@ export default class FlowLinkTrace {
     traceEnd (N, val) {
         if (this.trace === null)
             return
-        let prefix = this.prefixOf(N)
+        const prefix = this.prefixOf(N)
         let result
         if (val === undefined)
             result = "undefined"

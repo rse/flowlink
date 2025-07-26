@@ -74,7 +74,7 @@ class FlowLink {
         if (ast === undefined) {
             /*  compile AST from scratch  */
             const asty = new ASTY()
-            let result = PEGUtil.parse(FlowLinkParser, expr, {
+            const result = PEGUtil.parse(FlowLinkParser, expr, {
                 startRule: "expression",
                 makeAST: (line, column, offset, args) => {
                     return asty.create.apply(asty, args).pos(line, column, offset)
