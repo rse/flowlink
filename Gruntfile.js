@@ -32,7 +32,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         eslint: {
             options: {
-                overrideConfigFile: "eslint.yaml"
+                overrideConfigFile: "eslint.mjs"
             },
             "flowlink": [ "src/**/*.js", "tst/**/*.js" ]
         },
