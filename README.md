@@ -29,8 +29,7 @@ $ npm install flowlink
 Usage
 -----
 
-```
-$ cat sample.js
+```js
 const FlowLink = require("..")
 
 const flowlink = new FlowLink({
