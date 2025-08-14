@@ -112,7 +112,7 @@ class FlowLink {
         /*  sanity check usage  */
         if (arguments.length !== 2)
             throw new Error("FlowLink#execute: invalid number of arguments")
-        if (!(typeof options === "object" && typeof options.resolveVariable === "function" && typeof options.createNode === "function" && typeof options.connectNode))
+        if (!(typeof options === "object" && typeof options.resolveVariable === "function" && typeof options.createNode === "function" && typeof options.connectNodes === "function"))
             throw new Error("FlowLink#execute: invalid options")
 
         /*  tracing operation  */
