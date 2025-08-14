@@ -57,11 +57,11 @@ exprSequential
     /   exprNode
 
 exprNode
-    =   id:id _ "(" _ p:exprNodeParams? _ ")" {
-            return ast("Node").merge(id).add(p)
+    =   id:id _ "(" _ p:exprNodeParams? _ ")" _ l:exprNodeLinks? {
+            return ast("Node").merge(id).add(p).add(l)
         }
-    /   id:id {
-            return ast("Node").merge(id)
+    /   id:id _ l:exprNodeLinks? {
+            return ast("Node").merge(id).add(l)
         }
     /   exprGroup
 
@@ -85,6 +85,25 @@ exprNodeParamValue
     /   exprLiteralObject
     /   exprLiteralOther
     /   exprVariable
+
+exprNodeLinks
+    =   head:exprNodeLink tail:(_ exprNodeLink)* {
+            return tail.reduce((result, element) => {
+                return [ ...result, element[1] ]
+            }, [ head ])
+        }
+
+exprNodeLink
+    =   op:$("<<" / "<") _ id:id {
+            return ast("NodeLink").merge(id)
+                .set("op", "read")
+                .set("exclusive", op === "<<")
+        }
+    /   op:$(">>" / ">") _ id:id {
+            return ast("NodeLink").merge(id)
+                .set("op", "write")
+                .set("exclusive", op === ">>")
+        }
 
 exprGroup
     =   "{" _ e:expr _ "}" {  /* RECURSION */

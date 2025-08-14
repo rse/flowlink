@@ -35,14 +35,14 @@ class Node {
 const expr = `
     begin(42, id: \`foo\${sample}bar\`) |
     { foo1("foo"), foo2('bar') } |
-    { bar1, bar2 } |
+    { bar1 >>foo, bar2 <foo } |
     end,
     sidechain
 `
 
 try {
     const ast = flowlink.compile(expr)
-    const stream = flowlink.execute(ast, {
+    flowlink.execute(ast, {
         resolveVariable: (id) => {
             if (id === "sample")
                 return "SAMPLE"
@@ -50,16 +50,17 @@ try {
                 throw new Error("failed to resolve variable")
         },
         createNode: (id, opts, args) => {
+            console.log("CREATE", id, opts, args)
             const node = new Node(id, opts, args)
             return node
         },
-        connectNode: (node1, node2) => {
+        connectNodes: (node1, node2) => {
+            console.log("CONNECT", node1.id, node2.id)
             node1.pipe(node2)
         }
     })
-    stream.head.forEach((node) => node.dump())
 }
 catch (ex) {
-    console.log("ERROR", ex.toString())
+    console.log("ERROR", ex.toString(), ex.stack)
 }
 

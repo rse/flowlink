@@ -32,6 +32,9 @@ export default class FlowLinkEval extends FlowLinkTrace {
         super(trace)
         this.expr    = expr
         this.options = options
+        this.nodes   = {}
+        this.edges   = []
+        this.links   = {}
     }
 
     /*  raise an error  */
@@ -43,6 +46,37 @@ export default class FlowLinkEval extends FlowLinkTrace {
             line:   pos.line,
             column: pos.column
         })
+    }
+
+    /*  evaluate entire AST  */
+    evalAST (N) {
+        this.nodes = {}
+        this.edges = []
+        this.links = {}
+        this.eval(N)
+        console.log(this.nodes, this.edges, JSON.stringify(this.links))
+        for (const id of Object.keys(this.links)) {
+            if (this.links[id].src.length === 0)
+                throw this.error(N, "eval", `node link "${id}" has no source node(s), only destination node(s)`)
+            else if (this.links[id].dst.length === 0)
+                throw this.error(N, "eval", `node link "${id}" has no destination node(s), only source node(s)`)
+            else {
+                for (const src of this.links[id].src) {
+                    if (src.exclusive)
+                        this.edges = this.edges.filter((edge) => edge.src !== src.node)
+                    for (const dst of this.links[id].dst) {
+                        if (dst.exclusive)
+                            this.edges = this.edges.filter((edge) => edge.dst !== dst.node)
+                        this.edges.push({ src: src.node, dst: dst.node })
+                    }
+                }
+            }
+        }
+        for (const edge of this.edges) {
+            const src = this.nodes[edge.src]
+            const dst = this.nodes[edge.dst]
+            this.options.connectNodes(src, dst)
+        }
     }
 
     /*  evaluate an arbitrary top-level node  */
@@ -80,7 +114,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
             if (result.tail !== null) {
                 result.tail.forEach((node1) => {
                     sub.head.forEach((node2) => {
-                        this.options.connectNode(node1, node2)
+                        this.edges.push({ src: node1.id, dst: node2.id })
                     })
                 })
             }
@@ -105,10 +139,24 @@ export default class FlowLinkEval extends FlowLinkTrace {
                 const val = this.evalNodeParamPositional(node)
                 args.push(val)
             }
+            else if (node.type() === "NodeLink") {
+                const link = this.evalNodeLink(node)
+                if (this.links[link.id] === undefined)
+                    this.links[link.id] = { src: [], dst: [] }
+                if (link.op === "read") {
+                    const n = { node: id, exclusive: link.exclusive }
+                    this.links[link.id].dst.push(n)
+                }
+                else if (link.op === "write") {
+                    const n = { node: id, exclusive: link.exclusive }
+                    this.links[link.id].src.push(n)
+                }
+            }
             else
                 throw this.error(node, "eval", "invalid AST node (should not happen)")
         })
         const node = this.options.createNode(id, opts, args)
+        this.nodes[id] = node
         const result = { head: [ node ], tail: [ node ] }
         this.traceEnd(N, result)
         return result
@@ -145,6 +193,17 @@ export default class FlowLinkEval extends FlowLinkTrace {
             default:
                 throw this.error(N, "eval", "invalid AST node (should not happen)")
         }
+    }
+
+    /*  evaluate node link  */
+    evalNodeLink (N) {
+        this.traceBegin(N)
+        const id = N.get("id")
+        const op = N.get("op")
+        const exclusive = N.get("exclusive")
+        const result = { id, op, exclusive }
+        this.traceEnd(N, result)
+        return result
     }
 
     /*  evaluate array literal  */
