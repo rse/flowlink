@@ -22,7 +22,7 @@
 **  SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-/*  load internal depdendencies  */
+/*  load internal dependencies  */
 import util from "./flowlink-util.js"
 
 /*  the exported class  */
@@ -63,7 +63,7 @@ export default class FlowLinkTrace {
         else
             result = JSON.stringify(val)
         if (result.length > 40)
-            result = result.substr(0, 40) + "..."
+            result = result.substring(0, 40) + "..."
         this.trace("execute: | " + prefix + "}: " + result)
     }
 }
