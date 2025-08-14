@@ -58,7 +58,7 @@ const expr = `
 
 try {
     const ast = flowlink.compile(expr)
-    const stream = flowlink.execute(ast, {
+    flowlink.execute(ast, {
         resolveVariable (id) {
             if (id === "sample")
                 return "SAMPLE"
@@ -67,7 +67,7 @@ try {
         createNode (id, opts, args) {
             return new Node(id, opts, args)
         },
-        connectNode (node1, node2) {
+        connectNodes (node1, node2) {
             node1.pipe(node2)
         }
     })
@@ -89,8 +89,10 @@ expr             ::= parallel
                    | group
 parallel         ::= sequential ("," sequential)+
 sequential       ::= node ("|" node)+
-node             ::= id ("(" (param ("," param)*)? ")")?
+node             ::= id ("(" (param ("," param)*)? ")")? links?
 param            ::= array | object | variable | template | string | number | value
+links            ::= link (_ link)*
+link             ::= "<" | "<<" | ">" | ">>" id
 group            ::= "{" expr "}"
 id               ::= /[a-zA-Z_][a-zA-Z0-9_-]*/
 variable         ::= id
@@ -118,10 +120,9 @@ declare module "flowlink" {
     type FlowLinkCallbacks<T> = {
         resolveVariable(id: string): string,
         createNode(id: string, opts: { [ id: string ]: any }, args: any[]): T,
-        connectNode(node1: T, node2: T): void
+        connectNodes(node1: T, node2: T): void
     }
     type FlowLinkAST = unknown
-    type FlowLinkResult<T> = { head: T[], tail: T[] }
     class FlowLink<T> {
         constructor(
             options?: {
@@ -135,11 +136,11 @@ declare module "flowlink" {
         execute(
             ast: FlowLinkAST,
             callbacks: FlowLinkCallbacks<T>
-        ): FlowLinkResult<T>
+        ): void
         evaluate(
             expr: string,
             callbacks: FlowLinkCallbacks<T>
-        ): FlowLinkResult<T>
+        ): void
     }
     export = FlowLink
 }
