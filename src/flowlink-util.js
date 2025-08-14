@@ -27,7 +27,7 @@ export default class FlowLinkUtil {
     static pad (str, num) {
         const n = num < 0 ? -num : num
         if (str.length > n)
-            str = str.substr(0, n)
+            str = str.substring(0, n)
         else {
             const pad = Array((n + 1) - str.length).join(" ")
             str = num < 0 ? (str + pad) : (pad + str)
