@@ -42,7 +42,7 @@ const expr = `
 
 try {
     const ast = flowlink.compile(expr)
-    flowlink.execute(ast, {
+    const graph = flowlink.execute(ast, {
         resolveVariable: (id) => {
             if (id === "sample")
                 return "SAMPLE"
@@ -59,6 +59,7 @@ try {
             node1.pipe(node2)
         }
     })
+    graph.head.forEach((node) => node.dump())
 }
 catch (ex) {
     console.log("ERROR", ex.toString(), ex.stack)

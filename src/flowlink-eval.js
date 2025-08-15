@@ -53,8 +53,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
         this.nodes = {}
         this.edges = []
         this.links = {}
-        this.eval(N)
-        console.log(this.nodes, this.edges, JSON.stringify(this.links))
+        const result = this.eval(N)
         for (const id of Object.keys(this.links)) {
             if (this.links[id].src.length === 0)
                 throw this.error(N, "eval", `node link "${id}" has no source node(s), only destination node(s)`)
@@ -77,6 +76,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
             const dst = this.nodes[edge.dst]
             this.options.connectNodes(src, dst)
         }
+        return result
     }
 
     /*  evaluate an arbitrary top-level node  */

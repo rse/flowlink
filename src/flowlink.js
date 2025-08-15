@@ -123,7 +123,7 @@ class FlowLink {
         /*  evaluate the AST  */
         const expr = ast.get("__expr")
         const evaluator = new FlowLinkEval(expr, options, this.options.trace)
-        evaluator.evalAST(ast)
+        return evaluator.evalAST(ast)
     }
 
     /*  all-in-one step  */
@@ -134,7 +134,7 @@ class FlowLink {
 
         /*  compile and evaluate expression  */
         const ast = this.compile(expr)
-        this.execute(ast, options)
+        return this.execute(ast, options)
     }
 }
 

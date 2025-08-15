@@ -123,6 +123,7 @@ declare module "flowlink" {
         connectNodes(node1: T, node2: T): void
     }
     type FlowLinkAST = unknown
+    type FlowLinkResult<T> = { head: T[], tail: T[] }
     class FlowLink<T> {
         constructor(
             options?: {
@@ -136,11 +137,11 @@ declare module "flowlink" {
         execute(
             ast: FlowLinkAST,
             callbacks: FlowLinkCallbacks<T>
-        ): void
+        ): FlowLinkResult<T>
         evaluate(
             expr: string,
             callbacks: FlowLinkCallbacks<T>
-        ): void
+        ): FlowLinkResult<T>
     }
     export = FlowLink
 }
