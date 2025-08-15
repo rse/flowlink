@@ -32,7 +32,7 @@
         "grunt-browserify":       "6.0.0",
         "grunt-mocha-test":       "0.13.3",
         "grunt-eslint":           "25.0.0",
-        "@babel/core":            "7.28.0",
+        "@babel/core":            "7.28.3",
         "eslint":                 "9.33.0",
         "@eslint/js":             "9.33.0",
         "eslint-plugin-import":   "2.32.0",
@@ -44,7 +44,7 @@
         "mocha":                  "11.7.1",
         "chai":                   "4.4.1",
         "babelify":               "10.0.0",
-        "@babel/preset-env":      "7.28.0",
+        "@babel/preset-env":      "7.28.3",
         "uglifyify":              "5.0.2",
         "browserify-header":      "1.1.0",
         "browserify-derequire":   "1.1.1"
