@@ -156,7 +156,7 @@ export default class FlowLinkEval extends FlowLinkTrace {
                 throw this.error(node, "eval", "invalid AST node (should not happen)")
         })
         const node = this.options.createNode(id, opts, args)
-        this.nodes[id] = node
+        this.nodes[node.id] = node
         const result = { head: [ node ], tail: [ node ] }
         this.traceEnd(N, result)
         return result
